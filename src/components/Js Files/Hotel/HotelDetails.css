@@ -1,0 +1,15 @@
+.flight-details {
+    display: flex;
+    flex-direction: row;
+}
+
+.flight-details div {
+    margin: 0 5%;
+    width: 40%;
+}
+
+.hotel-core img {
+    width: 70%;
+    height: 60%;
+    margin-bottom: 10px;
+}

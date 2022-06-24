@@ -1,0 +1,96 @@
+.profile {
+    background-color: #d7e9fb;
+    /* height: 120vh; */
+    width: 100%;
+}
+
+.profile-box {
+    background-color: white;
+    margin: 0 10vw;
+    margin-top: 5vh;
+    width: 80vw;
+    /* height: 100vh; */
+    border-radius: 10px;
+    border: 0.01px solid rgb(116, 219, 254);
+    box-shadow: 0px 1px 2px rgb(239, 239, 255);
+}
+
+/*Profile Top styling starts here*/
+
+.profile-top {
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center;
+    align-items: center; */
+    width: 80%;
+    margin: 0 10%;
+    margin-top: 2%;
+}
+
+.profile-top-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: aquamarine; */
+    width: 50%;
+}
+
+.profile-top-left div {
+    width: 50%;
+}
+
+.profile-top-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: bisque; */
+    width: 50%;
+}
+
+.profile-top-right-form {
+    width: 80%;
+    margin: 0 10%;
+}
+
+/*Profile Top styling ends here*/
+
+
+/*Profile Mid styling starts here*/
+
+.profile-mid {
+    width: 80%;
+    margin: 0 10%;
+    margin-top: 2%;
+    padding: 10px 10px;
+    /* background-color: aquamarine; */
+}
+
+.profile-mid ul {
+    list-style-type: none;
+}
+
+/*Profile Mid styling ends here*/
+
+.profile-login-details {
+    width: 80%;
+    margin: 0 10%;
+    margin-top: 2%;
+    padding: 10px 10px;
+}
+
+
+
+.modal-body {
+    display: flex;
+    flex-direction: row;
+}
+
+.modal-body-left {
+    width: 40%;
+    margin: 0 5%;
+}
+
+.modal-body-right {
+    width: 40%;
+    margin: 0 5%;
+}

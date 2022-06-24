@@ -1,0 +1,15 @@
+.navbar {
+    background-color: white;
+}
+
+.navbar-brand img {
+    top: 0;
+    margin-left: 10px;
+    width: 130px;
+    height: 40px;
+}
+
+.account-dropdown ul {
+    list-style-type: none;
+    color: black;
+}
