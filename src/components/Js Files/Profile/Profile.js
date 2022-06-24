@@ -15,13 +15,12 @@ function Profile() {
     const [user_Gender, setUser_Gender] = useState("");
     const [user_MartialStatus, setUser_MartialStatus] = useState("");
     const [user_Birthday, setUser_Birthday] = useState("");
-    const [imgURL, setImgURL] = useState("");
+    const [user_Img, setUser_Img] = useState("");
 
     const location = useLocation();
 
     useEffect(() => {
         getUserDetails();
-
     }, [])
 
     const getUserDetails = () => {
@@ -30,6 +29,7 @@ function Profile() {
                 const allUserDetails = response.data;
                 setUserDetails(allUserDetails);
 
+                setUser_Img(allUserDetails.imageName);
                 setUser_Name(allUserDetails.userName);
                 setUser_Gender(allUserDetails.gender);
                 setUser_Birthday(allUserDetails.birthday);
@@ -39,7 +39,6 @@ function Profile() {
     }
 
     const saveChanges = () => {
-        // console.log(user_Gender);
         const userobj = {
             "userID": userDetails.userID,
             "userName": user_Name,
@@ -55,23 +54,21 @@ function Profile() {
             )
     }
 
-    const getBase64 = file => {
+    const getBase64 = (file) => {
         return new Promise(resolve => {
             let fileInfo;
-            let baseURL = "";
-            // Make new FileReader
+            let base64String = "";
+
             let reader = new FileReader();
 
-            // Convert the file to base64 text
             reader.readAsDataURL(file);
 
-            // on reader load somthing...
             reader.onload = () => {
-                // Make a fileInfo Object
-                baseURL = reader.result;
-                resolve(baseURL);
-            };
-            // console.log(fileInfo);
+                base64String = reader.result.replace("data:", "")
+                    .replace(/^.+,/, "");
+                console.log(base64String);
+                resolve(base64String);
+            }
         });
     };
 
@@ -79,46 +76,24 @@ function Profile() {
         let file = event.target.files[0];
         getBase64(file)
             .then((result) => {
-                setImgURL(result);
                 console.log(result);
-                file["base64"] = result;
-                console.log(imgURL)
+                setUser_Img(result);
+                axios.put(`${variable.API_URL}Users`, { "userID": userDetails.userID, "imageName": result })
+                    .then((response) => response.json)
             })
-            .then(
-                saveImage()
-            );
-    }
-
-    const saveImage = () => {
-        console.log(imgURL)
-        axios.put(`${variable.API_URL}Users`, { "userID": userDetails.userID, "imageName": imgURL })
-            .then(
-                response => response.json()
-            ).then(
-                axios.get(`${variable.API_URL}Users/${location.state.uid}`)
-                    .then((response) => {
-                        const allUserDetails = response.data;
-                        setUserDetails(allUserDetails);
-                    })
-                    .catch(error => console.error(`Error : ${error}`))
-            )
     }
 
     const changeUserName = (e) => {
-        // console.log(e.target.value);
         setUser_Name(e.target.value);
     }
 
     const changeUserGender = (e) => {
-        // console.log(e.target.value);
         setUser_Gender(e.target.value);
     }
     const changeUserBirthday = (e) => {
-        // console.log(e.target.value);
         setUser_Birthday(e.target.value);
     }
     const changeUserMartialStatus = (e) => {
-        // console.log(e.target.value);
         setUser_MartialStatus(e.target.value);
     }
 
@@ -133,9 +108,8 @@ function Profile() {
                     <div className="profile-top">
                         <div className="card-body profile-top-left">
                             <div className="mb-3">
-                                {/* <ProfileImage url={defaultImageSrc} /> */}
-                                <img className='card-img-top' src={userDetails.imageName} alt="Profile Image" />
-                                <input className="btn btn-outline-ligh0 form-control-file" accept='image/*' type="file" id="formFile" onChange={(event) => { handleImageChange(event) }} />
+                                <img className='card-img-top' src={"data:image/png;base64," + user_Img} alt="Profile Image" />
+                                <input className="btn form-control-file" accept='image/*' type="file" id="formFile" onChange={(event) => { handleImageChange(event) }} />
                             </div>
                         </div>
                         <div className="profile-top-right">
@@ -192,7 +166,7 @@ function Profile() {
                                     <td>Password</td>
                                     <td type='password'>{userDetails.password}</td>
                                     {/* <input className='form-control' type="password" value={userDetails.password} /> */}
-                                    <td><button type="button" className="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"> Change Password</button> </td>
+                                    {/* <td><button type="button" className="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal"> Change Password</button> </td> */}
                                 </tr>
                             </tbody>
                         </table>
@@ -217,17 +191,17 @@ function Profile() {
                                 </div>
                                 <div className="left-right">
                                     <label htmlFor="profileBirthday">Birthday</label>
-                                    <input className='form-control' type="text" defaultValue={user_Birthday} onChange={(event) => { changeUserBirthday(event) }} />
+                                    <input className='form-control' type="text" placeholder='DD/MM/YYYY' defaultValue={user_Birthday} onChange={(event) => { changeUserBirthday(event) }} />
                                 </div>
                             </div>
                             <div className="modal-body-right">
                                 <div className="right-left">
                                     <label htmlFor="profileName">Gender</label>
-                                    <input className='form-control' type="text" defaultValue={user_Gender} onChange={(event) => { changeUserGender(event) }} />
+                                    <input className='form-control' type="text" placeholder='Male/Female/Unkown' defaultValue={user_Gender} onChange={(event) => { changeUserGender(event) }} />
                                 </div>
                                 <div className="right-right">
                                     <label htmlFor="profileBirthday">Martial Status</label>
-                                    <input className='form-control' type="text" defaultValue={user_MartialStatus} onChange={(event) => { changeUserMartialStatus(event) }} />
+                                    <input className='form-control' type="text" placeholder='Single/Married' defaultValue={user_MartialStatus} onChange={(event) => { changeUserMartialStatus(event) }} />
                                 </div>
                             </div>
                         </div>
