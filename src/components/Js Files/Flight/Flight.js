@@ -21,7 +21,8 @@ function Flight(props) {
 
 
     const getFlightBookings = () => {
-        axios.get(`${variable.API_URL}FlightBooking`)
+
+        axios.get(`${variable.API_URL}FlightBooking?uid=${props.uid}`)
             .then((response) => {
                 const allFlightBooking = response.data;
                 setFlightBookings(allFlightBooking);
@@ -58,7 +59,7 @@ function Flight(props) {
                         .then(response => response.json())
                 )
                 .then(
-                    axios.get(`${variable.API_URL}FlightBooking`)
+                    axios.get(`${variable.API_URL}FlightBooking?uid=${props.uid}`)
                         .then((response) => {
                             const allFlightBooking = response.data;
                             setFlightBookings(allFlightBooking);
